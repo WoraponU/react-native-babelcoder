@@ -10,6 +10,7 @@ import {
   FlatList,
   TouchableHighlight
 } from "react-native";
+import Search from "./search/Search";
 
 export default class App extends React.PureComponent {
   state = {
@@ -36,19 +37,11 @@ export default class App extends React.PureComponent {
   render() {
     return (
       <SafeAreaView style={styles.container}>
-        <View>
-          <TextInput
-            value={this.state.name}
-            onChangeText={this.onChangeText}
-            style={styles.textHeader}
-          />
-          <Button
-            onPress={this.onPressLearnMore}
-            title="search"
-            color="#841584"
-            accessibilityLabel="search"
-          />
-        </View>
+        <Search
+          name={this.state.name}
+          onChangeText={this.onChangeText}
+          onPressLearnMore={this.onPressLearnMore}
+        />
         <View style={styles.body}>
           <FlatList
             style={styles.lists}
