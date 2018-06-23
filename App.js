@@ -1,7 +1,29 @@
 import React from "react";
-import { StyleSheet, Text, SafeAreaView, View, Image } from "react-native";
+// import fetch from 'fetch'
+import {
+  StyleSheet,
+  Text,
+  SafeAreaView,
+  View,
+  Image,
+  ScrollView
+} from "react-native";
 
 export default class App extends React.PureComponent {
+  state = {
+    posts: []
+  };
+
+  componentDidMount() {
+    this.fetchPosts();
+  }
+
+  fetchPosts = () => {
+    fetch("https://www.babelcoder.com/api/v1/articles")
+      .then(res => res.json())
+      .then(posts => this.setState({ posts: posts.articles }));
+  };
+
   render() {
     return (
       <SafeAreaView style={styles.container}>
@@ -9,25 +31,15 @@ export default class App extends React.PureComponent {
           <Text style={styles.textHeader}>Home</Text>
         </View>
         <View style={styles.body}>
-          <View style={styles.modal}>
-            <Image
-              style={{ width: 50, height: 50 }}
-              source={{
-                uri: "https://www.babelcoder.com/images/full-logo.png"
-              }}
-            />
-          </View>
-        </View>
-        <View style={styles.footer}>
-          <View>
-            <Text style={styles.text}>footer</Text>
-          </View>
-          <View>
-            <Text style={styles.text}>footer</Text>
-          </View>
-          <View>
-            <Text style={styles.text}>footer</Text>
-          </View>
+          <ScrollView style={styles.lists}>
+            {this.state.posts.map(post => (
+              <View key={post.id} style={styles.list}>
+                <View style={styles.listHeader} />
+                <Text>{post.title}</Text>
+                <View style={styles.listFooter} />
+              </View>
+            ))}
+          </ScrollView>
         </View>
       </SafeAreaView>
     );
@@ -53,24 +65,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "green"
   },
-  footer: {
-    marginTop: "auto",
-    flexDirection: "row",
-    justifyContent: "space-evenly"
-  },
   button: {
     backgroundColor: "red"
   },
-  modal: {
-    marginTop: "auto",
-    marginBottom: "auto",
-    marginLeft: "auto",
-    marginRight: "auto",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "black",
-    width: "60%",
-    height: 200,
-    borderRadius: 5
-  }
+  lists: {
+    margin: 20,
+    width: "80%"
+  },
+  list: {
+    backgroundColor: "white",
+    marginVertical: 5,
+    padding: 10
+  },
+  listHeader: {},
+  listFooter: {}
 });
