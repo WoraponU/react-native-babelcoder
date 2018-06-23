@@ -1,26 +1,19 @@
 import React from "react";
-import {
-  StyleSheet,
-  Text,
-  SafeAreaView,
-  TouchableHighlight
-} from "react-native";
+import { StyleSheet, Text, SafeAreaView, View } from "react-native";
 
 export default class App extends React.PureComponent {
   render() {
     return (
       <SafeAreaView style={styles.container}>
-        <Text style={styles.text}>
-          Open up App.js to start working on your app!
-        </Text>
-        <TouchableHighlight
-          style={styles.button}
-          opacity={0.5}
-          underlayColor="green"
-          onPress={() => alert("eiei")}
-        >
-          <Text>button</Text>
-        </TouchableHighlight>
+        <View style={styles.header}>
+          <Text style={styles.textHeader}>Home</Text>
+        </View>
+        <View style={styles.body}>
+          <Text style={styles.text}>body</Text>
+        </View>
+        <View style={styles.footer}>
+          <Text style={styles.text}>footer</Text>
+        </View>
       </SafeAreaView>
     );
   }
@@ -31,10 +24,23 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
-    justifyContent: "center"
+    alignItems: "stretch"
   },
-  text: {
-    fontSize: 50
+  header: {
+    alignItems: "center",
+    backgroundColor: "red"
+  },
+  textHeader: {
+    fontSize: 50,
+    color: "white"
+  },
+  body: {
+    flex: 1,
+    alignItems: "center",
+    backgroundColor: "green"
+  },
+  footer: {
+    marginTop: "auto"
   },
   button: {
     backgroundColor: "red"
