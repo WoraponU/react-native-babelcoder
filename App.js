@@ -1,12 +1,12 @@
 import React from "react";
-// import fetch from 'fetch'
 import {
   StyleSheet,
   Text,
   SafeAreaView,
   View,
   Image,
-  ScrollView
+  FlatList,
+  TouchableHighlight
 } from "react-native";
 
 export default class App extends React.PureComponent {
@@ -31,7 +31,39 @@ export default class App extends React.PureComponent {
           <Text style={styles.textHeader}>Home</Text>
         </View>
         <View style={styles.body}>
-          <ScrollView style={styles.lists}>
+          <FlatList
+            style={styles.lists}
+            data={this.state.posts}
+            keyExtractor={item => `${item.id}`}
+            renderItem={({ item: post }) => (
+              <TouchableHighlight>
+                <View key={post.id} style={styles.list}>
+                  <View style={styles.listHeader}>
+                    <Text>{post.title}</Text>
+                  </View>
+                  <View>
+                    <Image
+                      style={styles.image}
+                      source={{
+                        uri: post.thumbnail
+                      }}
+                    />
+                  </View>
+                  <View style={styles.listFooter}>
+                    <Image
+                      style={[styles.image]}
+                      source={{
+                        uri: post.user.avatar
+                      }}
+                    />
+                    <Text>{post.user.name}</Text>
+                  </View>
+                </View>
+              </TouchableHighlight>
+            )}
+          />
+
+          {/* <ScrollView style={styles.lists}>
             {this.state.posts.map(post => (
               <View key={post.id} style={styles.list}>
                 <View style={styles.listHeader}>
@@ -56,7 +88,7 @@ export default class App extends React.PureComponent {
                 </View>
               </View>
             ))}
-          </ScrollView>
+          </ScrollView> */}
         </View>
       </SafeAreaView>
     );
