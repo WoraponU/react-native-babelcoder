@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, SafeAreaView, View } from "react-native";
+import { StyleSheet, Text, SafeAreaView, View, Image } from "react-native";
 
 export default class App extends React.PureComponent {
   render() {
@@ -9,7 +9,14 @@ export default class App extends React.PureComponent {
           <Text style={styles.textHeader}>Home</Text>
         </View>
         <View style={styles.body}>
-          <Text style={styles.text}>body</Text>
+          <View style={styles.modal}>
+            <Image
+              style={{ width: 50, height: 50 }}
+              source={{
+                uri: "https://www.babelcoder.com/images/full-logo.png"
+              }}
+            />
+          </View>
         </View>
         <View style={styles.footer}>
           <View>
@@ -53,5 +60,17 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: "red"
+  },
+  modal: {
+    marginTop: "auto",
+    marginBottom: "auto",
+    marginLeft: "auto",
+    marginRight: "auto",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "black",
+    width: "60%",
+    height: 200,
+    borderRadius: 5
   }
 });
