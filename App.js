@@ -12,7 +12,15 @@ export default class App extends React.PureComponent {
           <Text style={styles.text}>body</Text>
         </View>
         <View style={styles.footer}>
-          <Text style={styles.text}>footer</Text>
+          <View>
+            <Text style={styles.text}>footer</Text>
+          </View>
+          <View>
+            <Text style={styles.text}>footer</Text>
+          </View>
+          <View>
+            <Text style={styles.text}>footer</Text>
+          </View>
         </View>
       </SafeAreaView>
     );
@@ -23,7 +31,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    alignItems: "center",
     alignItems: "stretch"
   },
   header: {
@@ -40,7 +47,9 @@ const styles = StyleSheet.create({
     backgroundColor: "green"
   },
   footer: {
-    marginTop: "auto"
+    marginTop: "auto",
+    flexDirection: "row",
+    justifyContent: "space-evenly"
   },
   button: {
     backgroundColor: "red"
