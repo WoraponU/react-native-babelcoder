@@ -19,16 +19,23 @@ export default class App extends React.PureComponent {
   }
 
   fetchPosts = () => {
-    fetch("https://www.babelcoder.com/api/v1/articles")
+    fetch("https://www.metaweather.com/api/location/1225448/2018/6/21")
       .then(res => res.json())
-      .then(posts => this.setState({ posts: posts.articles }));
+      .then(posts => this.setState({ posts: posts }));
   };
+
+  showTime = now => {
+    const time = new Date(now);
+    return `${time.getHours()}:${time.getMinutes()}`;
+  };
+
+  numberInt = input => parseInt(input);
 
   render() {
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.header}>
-          <Text style={styles.textHeader}>Home</Text>
+          <Text style={styles.textHeader}>Bangkok</Text>
         </View>
         <View style={styles.body}>
           <FlatList
@@ -36,59 +43,22 @@ export default class App extends React.PureComponent {
             data={this.state.posts}
             keyExtractor={item => `${item.id}`}
             renderItem={({ item: post }) => (
-              <TouchableHighlight>
-                <View key={post.id} style={styles.list}>
-                  <View style={styles.listHeader}>
-                    <Text>{post.title}</Text>
-                  </View>
-                  <View>
-                    <Image
-                      style={styles.image}
-                      source={{
-                        uri: post.thumbnail
-                      }}
-                    />
-                  </View>
-                  <View style={styles.listFooter}>
-                    <Image
-                      style={[styles.image]}
-                      source={{
-                        uri: post.user.avatar
-                      }}
-                    />
-                    <Text>{post.user.name}</Text>
-                  </View>
-                </View>
-              </TouchableHighlight>
-            )}
-          />
-
-          {/* <ScrollView style={styles.lists}>
-            {this.state.posts.map(post => (
               <View key={post.id} style={styles.list}>
-                <View style={styles.listHeader}>
-                  <Text>{post.title}</Text>
-                </View>
+                <Text>{this.showTime(post.created)}</Text>
                 <View>
                   <Image
-                    style={styles.image}
+                    style={{ width: 50, height: 50 }}
                     source={{
-                      uri: post.thumbnail
+                      uri: `https://www.metaweather.com/static/img/weather/png/${
+                        post.weather_state_abbr
+                      }.png`
                     }}
                   />
                 </View>
-                <View style={styles.listFooter}>
-                  <Image
-                    style={[styles.image]}
-                    source={{
-                      uri: post.user.avatar
-                    }}
-                  />
-                  <Text>{post.user.name}</Text>
-                </View>
+                <Text>{this.numberInt(post.the_temp)}</Text>
               </View>
-            ))}
-          </ScrollView> */}
+            )}
+          />
         </View>
       </SafeAreaView>
     );
@@ -124,7 +94,9 @@ const styles = StyleSheet.create({
   list: {
     backgroundColor: "white",
     marginVertical: 5,
-    padding: 10
+    padding: 10,
+    flexDirection: "row",
+    justifyContent: "space-around"
   },
   listHeader: {},
   listFooter: {
@@ -132,6 +104,6 @@ const styles = StyleSheet.create({
     flex: 1
   },
   image: {
-    aspectRatio: 2 / 1
+    aspectRatio: 1 / 1
   }
 });
