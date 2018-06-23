@@ -2,6 +2,7 @@ import React from "react";
 import {
   StyleSheet,
   Text,
+  TextInput,
   SafeAreaView,
   View,
   Image,
@@ -11,13 +12,14 @@ import {
 
 export default class App extends React.PureComponent {
   state = {
-    posts: []
+    posts: [],
+    name: ""
   };
 
   componentDidMount() {
     this.fetchPosts();
   }
-
+  // 5b60ef21ffd8e1ed4510003364a3e1093ee753fce3d29f7a0112dc6809a10ead apikey
   fetchPosts = () => {
     fetch("https://www.metaweather.com/api/location/1225448/2018/6/21")
       .then(res => res.json())
@@ -31,11 +33,12 @@ export default class App extends React.PureComponent {
 
   numberInt = input => parseInt(input);
 
+  onChangeText = name => this.setState({ name });
   render() {
     return (
       <SafeAreaView style={styles.container}>
-        <View style={styles.header}>
-          <Text style={styles.textHeader}>Bangkok</Text>
+        <View>
+          <TextInput value={this.state.name} style={styles.textHeader} />
         </View>
         <View style={styles.body}>
           <FlatList
@@ -77,7 +80,7 @@ const styles = StyleSheet.create({
   },
   textHeader: {
     fontSize: 50,
-    color: "white"
+    color: "black"
   },
   body: {
     flex: 1,
