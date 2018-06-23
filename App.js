@@ -5,6 +5,7 @@ import {
   TextInput,
   SafeAreaView,
   View,
+  Button,
   Image,
   FlatList,
   TouchableHighlight
@@ -12,53 +13,55 @@ import {
 
 export default class App extends React.PureComponent {
   state = {
-    posts: [],
-    name: ""
+    name: "",
+    photos: []
   };
 
   componentDidMount() {
-    this.fetchPosts();
+    this.fetchPhotos();
   }
-  // 5b60ef21ffd8e1ed4510003364a3e1093ee753fce3d29f7a0112dc6809a10ead apikey
-  fetchPosts = () => {
-    fetch("https://www.metaweather.com/api/location/1225448/2018/6/21")
+
+  fetchPhotos = () => {
+    const { name } = this.state;
+
+    fetch(
+      `https://api.unsplash.com/photos/?query=${name}&client_id=b1ca0762ddb8ba811bd36953fd91e375e2add651e8e567d168c61d40c3a3828d`
+    )
       .then(res => res.json())
-      .then(posts => this.setState({ posts: posts }));
+      .then(photos => this.setState({ photos }));
   };
-
-  showTime = now => {
-    const time = new Date(now);
-    return `${time.getHours()}:${time.getMinutes()}`;
-  };
-
-  numberInt = input => parseInt(input);
 
   onChangeText = name => this.setState({ name });
+  setKey = item => `${item.id}`;
+
   render() {
     return (
       <SafeAreaView style={styles.container}>
         <View>
           <TextInput value={this.state.name} style={styles.textHeader} />
+          {/* <Button
+            onPress={onPressLearnMore}
+            title="Learn More"
+            color="#841584"
+            accessibilityLabel="Learn more about this purple button"
+          /> */}
         </View>
         <View style={styles.body}>
           <FlatList
             style={styles.lists}
-            data={this.state.posts}
-            keyExtractor={item => `${item.id}`}
-            renderItem={({ item: post }) => (
-              <View key={post.id} style={styles.list}>
-                <Text>{this.showTime(post.created)}</Text>
+            data={this.state.photos}
+            keyExtractor={this.setKey}
+            renderItem={({ item: photo }) => (
+              <View key={photo.id} style={styles.list}>
+                <Text>{photo.id}</Text>
                 <View>
                   <Image
-                    style={{ width: 50, height: 50 }}
+                    style={{ width: 100, height: 50 }}
                     source={{
-                      uri: `https://www.metaweather.com/static/img/weather/png/${
-                        post.weather_state_abbr
-                      }.png`
+                      uri: `${photo.urls.small}`
                     }}
                   />
                 </View>
-                <Text>{this.numberInt(post.the_temp)}</Text>
               </View>
             )}
           />
