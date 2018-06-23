@@ -17,34 +17,37 @@ export default class App extends React.PureComponent {
     photos: []
   };
 
-  componentDidMount() {
-    this.fetchPhotos();
-  }
-
   fetchPhotos = () => {
     const { name } = this.state;
-
     fetch(
-      `https://api.unsplash.com/photos/?query=${name}&client_id=b1ca0762ddb8ba811bd36953fd91e375e2add651e8e567d168c61d40c3a3828d`
+      `https://api.unsplash.com/search/photos?query=${name}&client_id=b1ca0762ddb8ba811bd36953fd91e375e2add651e8e567d168c61d40c3a3828d`
     )
       .then(res => res.json())
-      .then(photos => this.setState({ photos }));
+      .then(photos => this.setState({ photos: photos.results }));
   };
 
   onChangeText = name => this.setState({ name });
+
   setKey = item => `${item.id}`;
 
+  onPressLearnMore = () => {
+    this.fetchPhotos();
+  };
   render() {
     return (
       <SafeAreaView style={styles.container}>
         <View>
-          <TextInput value={this.state.name} style={styles.textHeader} />
-          {/* <Button
-            onPress={onPressLearnMore}
-            title="Learn More"
+          <TextInput
+            value={this.state.name}
+            onChangeText={this.onChangeText}
+            style={styles.textHeader}
+          />
+          <Button
+            onPress={this.onPressLearnMore}
+            title="search"
             color="#841584"
-            accessibilityLabel="Learn more about this purple button"
-          /> */}
+            accessibilityLabel="search"
+          />
         </View>
         <View style={styles.body}>
           <FlatList
@@ -72,6 +75,9 @@ export default class App extends React.PureComponent {
 }
 
 const styles = StyleSheet.create({
+  test: {
+    color: "red"
+  },
   container: {
     flex: 1,
     backgroundColor: "#fff",
