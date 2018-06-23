@@ -34,9 +34,26 @@ export default class App extends React.PureComponent {
           <ScrollView style={styles.lists}>
             {this.state.posts.map(post => (
               <View key={post.id} style={styles.list}>
-                <View style={styles.listHeader} />
-                <Text>{post.title}</Text>
-                <View style={styles.listFooter} />
+                <View style={styles.listHeader}>
+                  <Text>{post.title}</Text>
+                </View>
+                <View>
+                  <Image
+                    style={styles.image}
+                    source={{
+                      uri: post.thumbnail
+                    }}
+                  />
+                </View>
+                <View style={styles.listFooter}>
+                  <Image
+                    style={[styles.image]}
+                    source={{
+                      uri: post.user.avatar
+                    }}
+                  />
+                  <Text>{post.user.name}</Text>
+                </View>
               </View>
             ))}
           </ScrollView>
@@ -78,5 +95,11 @@ const styles = StyleSheet.create({
     padding: 10
   },
   listHeader: {},
-  listFooter: {}
+  listFooter: {
+    flexDirection: "row",
+    flex: 1
+  },
+  image: {
+    aspectRatio: 2 / 1
+  }
 });
