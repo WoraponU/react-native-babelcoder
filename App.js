@@ -8,20 +8,25 @@ import {
   FlatList,
   TouchableHighlight
 } from "react-native"
-import { createBottomTabNavigator } from "react-navigation"
+import { createDrawerNavigator } from "react-navigation"
 
-import Posts from "./Posts"
-import Photos from "./Photos"
-import Users from "./Users"
+import Search from "./Search"
+import Weathers from "./Weathers"
+import FavoriteCities from "./FavoriteCities"
 
-export default createBottomTabNavigator(
+export default createDrawerNavigator(
   {
-    Posts,
-    Photos,
-    Users
+    Search: {
+      screen: Search
+    },
+    Weathers: {
+      screen: Weathers
+    },
+    FavoriteCities: {
+      screen: FavoriteCities
+    }
   },
   {
-    initialRouteName: "Posts",
-    lazy: true
+    initialRouteName: "Search"
   }
 )

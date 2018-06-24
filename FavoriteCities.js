@@ -14,21 +14,33 @@ export default class App extends React.PureComponent {
     posts: []
   }
 
-  componentDidMount() {
-    this.fetchPosts()
+  static navigationOptions = {
+    drawerLabel: "FavoriteCities"
+    // drawerIcon: ({ tintColor }) => (
+    //   <Image
+    //     source={require('./chats-icon.png')}
+    //     style={[styles.icon, {tintColor: tintColor}]}
+    //   />
+    // ),
   }
 
-  fetchPosts = () => {
-    fetch("https://jsonplaceholder.typicode.com/Users")
-      .then(res => res.json())
-      .then(posts => this.setState({ posts }))
-  }
+  // componentDidMount() {
+  //   this.fetchPosts()
+  // }
+
+  // fetchPosts = () => {
+  //   fetch("https://jsonplaceholder.typicode.com/Posts")
+  //     .then(res => res.json())
+  //     .then(posts => this.setState({ posts }))
+  // }
 
   render() {
     return (
       <SafeAreaView style={styles.container}>
-        <View style={styles.header}>
-          <Text style={styles.textHeader}>Users</Text>
+        <Text style={styles.textHeader}>FavoriteCities</Text>
+
+        {/* <View style={styles.header}>
+          <Text style={styles.textHeader}>Post</Text>
         </View>
         <View style={styles.body}>
           <FlatList
@@ -39,15 +51,13 @@ export default class App extends React.PureComponent {
               <TouchableHighlight>
                 <View key={post.id} style={styles.list}>
                   <View style={styles.listHeader}>
-                    <Text>{post.name}</Text>
-                    <Text>{post.email}</Text>
-                    <Text>{post.phone}</Text>
+                    <Text>{post.body}</Text>
                   </View>
                 </View>
               </TouchableHighlight>
             )}
           />
-        </View>
+        </View> */}
       </SafeAreaView>
     )
   }
@@ -65,7 +75,7 @@ const styles = StyleSheet.create({
   },
   textHeader: {
     fontSize: 50,
-    color: "white"
+    color: "black"
   },
   body: {
     flex: 1,
