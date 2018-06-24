@@ -9,18 +9,41 @@ import {
   ActivityIndicator,
   Image,
   FlatList,
-  TouchableHighlight
+  TouchableHighlight,
+  AsyncStorage
 } from "react-native"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
 import Header from "./Header"
-export default class App extends React.PureComponent {
+import {} from "react-navigation"
+
+export default class App extends React.Component {
   state = {
     name: "",
     countries: [],
-    isLoading: false
+    isLoading: false,
+    fav: []
   }
   static navigationOptions = {
     drawerLabel: "Search"
+  }
+
+  componentDidMount() {
+    this.getFavLocation()
+  }
+
+  setFavLocation = async woeid => {
+    const { fav } = this.state
+    const addFav = [...fav, woeid]
+    this.setState({ fav: addFav })
+    const dataJson = JSON.stringify(addFav)
+    return AsyncStorage.setItem("fav", dataJson)
+  }
+
+  getFavLocation = async () => {
+    const favLocation = await AsyncStorage.getItem("fav")
+    this.setState({
+      fav: JSON.parse(favLocation)
+    })
   }
 
   onChangeText = name => {
@@ -54,8 +77,17 @@ export default class App extends React.PureComponent {
     })
   }
 
+  onPressFav = woeid => {
+    this.setFavLocation(woeid)
+  }
+
+  isFav = woeid => {
+    const { fav } = this.state
+    return fav.includes(woeid)
+  }
+
   render() {
-    const { name, countries, isLoading } = this.state
+    const { name, countries, isLoading, fav } = this.state
     return (
       <SafeAreaView style={styles.container}>
         <Header page="search" />
@@ -75,12 +107,18 @@ export default class App extends React.PureComponent {
         </View>
         {isLoading && <ActivityIndicator size="large" color="#0000ff" />}
         {countries.map(country => (
-          <View key={country.latt_long}>
+          <View key={country.latt_long} style={styles.row}>
             <Text
               style={styles.textList}
               onPress={() => this.onPressCountry(country.woeid)}
             >
               {country.title}
+            </Text>
+            <Text
+              style={[styles.textList, this.isFav(country.woeid) && styles.red]}
+              onPress={() => this.onPressFav(country.woeid)}
+            >
+              Liked
             </Text>
           </View>
         ))}
@@ -94,11 +132,20 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff"
   },
+  red: {
+    color: "red"
+  },
+  row: {
+    flexDirection: "row",
+    justifyContent: "space-around"
+  },
   form: {
     flexDirection: "row"
   },
   textList: {
-    marginVertical: 10
+    marginVertical: 10,
+    fontSize: 20,
+    color: "black"
   },
   hamburger: {
     flex: 1
