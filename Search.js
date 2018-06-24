@@ -6,6 +6,7 @@ import {
   View,
   Button,
   TextInput,
+  ActivityIndicator,
   Image,
   FlatList,
   TouchableHighlight
@@ -15,7 +16,8 @@ import Header from "./Header"
 export default class App extends React.PureComponent {
   state = {
     name: "",
-    countries: []
+    countries: [],
+    isLoading: false
   }
   static navigationOptions = {
     drawerLabel: "Search"
@@ -29,17 +31,29 @@ export default class App extends React.PureComponent {
     const { name } = this.state
     fetch(`https://www.metaweather.com/api/location/search/?query=${name}`)
       .then(res => res.json())
-      .then(countries => this.setState({ countries }))
+      .then(countries => {
+        this.setState({ countries })
+        this.toggleLoading()
+      })
+  }
+
+  toggleLoading = () => {
+    const { isLoading } = this.state
+    this.setState({ isLoading: !isLoading })
   }
 
   onPressLearnMore = () => {
     const { name } = this.state
+    this.toggleLoading()
     this.fetchCountries()
   }
 
+  onPressCountry = () => {
+    this.props.navigation.navigate("Weathers")
+  }
+
   render() {
-    const { navigation } = this.props
-    const { name, countries } = this.state
+    const { name, countries, isLoading } = this.state
     return (
       <SafeAreaView style={styles.container}>
         <Header page="search" />
@@ -57,9 +71,12 @@ export default class App extends React.PureComponent {
             style={styles.button}
           />
         </View>
+        {isLoading && <ActivityIndicator size="large" color="#0000ff" />}
         {countries.map(country => (
-          <View key={country.title}>
-            <Text style={styles.textList}>{country.title}</Text>
+          <View key={country.latt_long}>
+            <Text style={styles.textList} onPress={this.onPressCountry}>
+              {country.title}
+            </Text>
           </View>
         ))}
       </SafeAreaView>

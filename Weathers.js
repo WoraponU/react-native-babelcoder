@@ -8,56 +8,17 @@ import {
   FlatList,
   TouchableHighlight
 } from "react-native"
+import Header from "./Header"
 
 export default class App extends React.PureComponent {
-  state = {
-    posts: []
-  }
-
   static navigationOptions = {
     drawerLabel: "Weather"
-    // drawerIcon: ({ tintColor }) => (
-    //   <Image
-    //     source={require('./chats-icon.png')}
-    //     style={[styles.icon, {tintColor: tintColor}]}
-    //   />
-    // ),
   }
-
-  // componentDidMount() {
-  //   this.fetchPosts()
-  // }
-
-  // fetchPosts = () => {
-  //   fetch("https://jsonplaceholder.typicode.com/Posts")
-  //     .then(res => res.json())
-  //     .then(posts => this.setState({ posts }))
-  // }
 
   render() {
     return (
       <SafeAreaView style={styles.container}>
-        <Text style={styles.textHeader}>Post</Text>
-
-        {/* <View style={styles.header}>
-          <Text style={styles.textHeader}>Post</Text>
-        </View>
-        <View style={styles.body}>
-          <FlatList
-            style={styles.lists}
-            data={this.state.posts}
-            keyExtractor={item => `${item.id}`}
-            renderItem={({ item: post }) => (
-              <TouchableHighlight>
-                <View key={post.id} style={styles.list}>
-                  <View style={styles.listHeader}>
-                    <Text>{post.body}</Text>
-                  </View>
-                </View>
-              </TouchableHighlight>
-            )}
-          />
-        </View> */}
+        <Header page="Weathers" />
       </SafeAreaView>
     )
   }

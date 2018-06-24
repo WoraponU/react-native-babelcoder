@@ -1,8 +1,9 @@
 import React from "react"
 import { StyleSheet, Text, SafeAreaView, View } from "react-native"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
+import { withNavigation } from "react-navigation"
 
-export default class App extends React.PureComponent {
+class App extends React.PureComponent {
   static navigationOptions = {
     drawerLabel: "Search"
   }
@@ -22,6 +23,8 @@ export default class App extends React.PureComponent {
     )
   }
 }
+
+export default withNavigation(App)
 
 const styles = StyleSheet.create({
   container: {
