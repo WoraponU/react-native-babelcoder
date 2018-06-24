@@ -8,6 +8,7 @@ import {
   FlatList,
   TouchableHighlight
 } from "react-native"
+import Header from "./Header"
 
 export default class App extends React.PureComponent {
   state = {
@@ -16,48 +17,56 @@ export default class App extends React.PureComponent {
 
   static navigationOptions = {
     drawerLabel: "FavoriteCities"
-    // drawerIcon: ({ tintColor }) => (
-    //   <Image
-    //     source={require('./chats-icon.png')}
-    //     style={[styles.icon, {tintColor: tintColor}]}
-    //   />
-    // ),
   }
 
-  // componentDidMount() {
-  //   this.fetchPosts()
-  // }
-
-  // fetchPosts = () => {
-  //   fetch("https://jsonplaceholder.typicode.com/Posts")
-  //     .then(res => res.json())
-  //     .then(posts => this.setState({ posts }))
-  // }
+  onPressCountry = woeid => {
+    this.props.navigation.navigate("Weathers", {
+      woeid
+    })
+  }
 
   render() {
     return (
       <SafeAreaView style={styles.container}>
-        <Text style={styles.textHeader}>FavoriteCities</Text>
-
-        {/* <View style={styles.header}>
-          <Text style={styles.textHeader}>Post</Text>
+        <Header page="Fav City" />
+        <Text
+          onPress={() => this.onPressCountry(44418)}
+          style={styles.textHeader}
+        >
+          FavoriteCities
+        </Text>
+        <View>
+          <Text
+            onPress={() => this.onPressCountry(2487956)}
+            style={styles.textHeader}
+          >
+            Bangkok
+          </Text>
         </View>
-        <View style={styles.body}>
-          <FlatList
-            style={styles.lists}
-            data={this.state.posts}
-            keyExtractor={item => `${item.id}`}
-            renderItem={({ item: post }) => (
-              <TouchableHighlight>
-                <View key={post.id} style={styles.list}>
-                  <View style={styles.listHeader}>
-                    <Text>{post.body}</Text>
-                  </View>
-                </View>
-              </TouchableHighlight>
-            )}
-          />
-        </View> */}
+        <View>
+          <Text
+            onPress={() => this.onPressCountry(44418)}
+            style={styles.textHeader}
+          >
+            san francisco
+          </Text>
+        </View>
+        <View>
+          <Text
+            onPress={() => this.onPressCountry(2487956)}
+            style={styles.textHeader}
+          >
+            new york
+          </Text>
+        </View>
+        <View>
+          <Text
+            onPress={() => this.onPressCountry(2487956)}
+            style={styles.textHeader}
+          >
+            tokyo
+          </Text>
+        </View>
       </SafeAreaView>
     )
   }

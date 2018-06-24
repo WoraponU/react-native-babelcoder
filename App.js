@@ -27,7 +27,7 @@ export default createDrawerNavigator(
     }
   },
   {
-    initialRouteName: "Weathers",
+    initialRouteName: "Search",
     lazy: true
   }
 )

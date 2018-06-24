@@ -87,8 +87,7 @@ const styles = StyleSheet.create({
   },
   body: {
     flex: 1,
-    alignItems: "center",
-    backgroundColor: "green"
+    alignItems: "center"
   },
   button: {
     backgroundColor: "red"
