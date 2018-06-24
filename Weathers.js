@@ -11,14 +11,61 @@ import {
 import Header from "./Header"
 
 export default class App extends React.PureComponent {
+  state = {
+    lists: []
+  }
   static navigationOptions = {
     drawerLabel: "Weather"
   }
+
+  componentDidMount() {
+    this.fetchWeather()
+  }
+
+  fetchWeather = () => {
+    const woeid = this.props.navigation.getParam("woeid", 1225448)
+
+    fetch(`https://www.metaweather.com/api/location/${woeid}`)
+      .then(res => res.json())
+      .then(lists => {
+        this.setState({ lists: lists.consolidated_weather })
+      })
+  }
+
+  showTime = now => {
+    const time = new Date(now)
+    return `${time.getHours()}:${time.getMinutes()}`
+  }
+
+  numberInt = input => parseInt(input)
 
   render() {
     return (
       <SafeAreaView style={styles.container}>
         <Header page="Weathers" />
+        <View style={styles.body}>
+          <FlatList
+            style={styles.lists}
+            data={this.state.lists}
+            keyExtractor={item => `${item.id}`}
+            renderItem={({ item: lists }) => (
+              <View key={lists.id} style={styles.list}>
+                <Text>{this.showTime(lists.created)}</Text>
+                <View>
+                  <Image
+                    style={{ width: 50, height: 50 }}
+                    source={{
+                      uri: `https://www.metaweather.com/static/img/weather/png/${
+                        lists.weather_state_abbr
+                      }.png`
+                    }}
+                  />
+                </View>
+                <Text>{this.numberInt(lists.the_temp)}</Text>
+              </View>
+            )}
+          />
+        </View>
       </SafeAreaView>
     )
   }
@@ -36,7 +83,7 @@ const styles = StyleSheet.create({
   },
   textHeader: {
     fontSize: 50,
-    color: "black"
+    color: "white"
   },
   body: {
     flex: 1,
@@ -53,7 +100,9 @@ const styles = StyleSheet.create({
   list: {
     backgroundColor: "white",
     marginVertical: 5,
-    padding: 10
+    padding: 10,
+    flexDirection: "row",
+    justifyContent: "space-around"
   },
   listHeader: {},
   listFooter: {
@@ -61,6 +110,6 @@ const styles = StyleSheet.create({
     flex: 1
   },
   image: {
-    aspectRatio: 2 / 1
+    aspectRatio: 1 / 1
   }
 })

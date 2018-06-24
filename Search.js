@@ -48,8 +48,10 @@ export default class App extends React.PureComponent {
     this.fetchCountries()
   }
 
-  onPressCountry = () => {
-    this.props.navigation.navigate("Weathers")
+  onPressCountry = woeid => {
+    this.props.navigation.navigate("Weathers", {
+      woeid
+    })
   }
 
   render() {
@@ -74,7 +76,10 @@ export default class App extends React.PureComponent {
         {isLoading && <ActivityIndicator size="large" color="#0000ff" />}
         {countries.map(country => (
           <View key={country.latt_long}>
-            <Text style={styles.textList} onPress={this.onPressCountry}>
+            <Text
+              style={styles.textList}
+              onPress={() => this.onPressCountry(country.woeid)}
+            >
               {country.title}
             </Text>
           </View>
