@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 import {
   StyleSheet,
   Text,
@@ -9,31 +9,39 @@ import {
   Image,
   FlatList,
   TouchableHighlight
-} from "react-native";
-import Search from "./search/Search";
+} from "react-native"
+import Search from "./search/Search"
+import debounce from "lodash.debounce"
 
 export default class App extends React.PureComponent {
   state = {
     name: "",
     photos: []
-  };
+  }
 
   fetchPhotos = () => {
-    const { name } = this.state;
+    const { name } = this.state
     fetch(
       `https://api.unsplash.com/search/photos?query=${name}&client_id=b1ca0762ddb8ba811bd36953fd91e375e2add651e8e567d168c61d40c3a3828d`
     )
       .then(res => res.json())
-      .then(photos => this.setState({ photos: photos.results }));
-  };
+      .then(photos => this.setState({ photos: photos.results }))
+  }
 
-  onChangeText = name => this.setState({ name });
+  typing = debounce(name => {
+    this.onChangeText(name)
+    this.onPressLearnMore()
+  }, 2000)
 
-  setKey = item => `${item.id}`;
+  onChangeText = name => {
+    this.setState({ name })
+  }
+
+  setKey = item => `${item.id}`
 
   onPressLearnMore = () => {
-    this.fetchPhotos();
-  };
+    this.fetchPhotos()
+  }
   render() {
     return (
       <SafeAreaView style={styles.container}>
@@ -41,6 +49,7 @@ export default class App extends React.PureComponent {
           name={this.state.name}
           onChangeText={this.onChangeText}
           onPressLearnMore={this.onPressLearnMore}
+          typing={this.typing}
         />
         <View style={styles.body}>
           <FlatList
@@ -63,7 +72,7 @@ export default class App extends React.PureComponent {
           />
         </View>
       </SafeAreaView>
-    );
+    )
   }
 }
 
@@ -111,4 +120,4 @@ const styles = StyleSheet.create({
   image: {
     aspectRatio: 1 / 1
   }
-});
+})

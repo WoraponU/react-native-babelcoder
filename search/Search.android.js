@@ -1,5 +1,5 @@
-import React from "react";
-import { StyleSheet, View, Button, TextInput } from "react-native";
+import React from "react"
+import { StyleSheet, View, Button, TextInput } from "react-native"
 
 const search = ({ name, onChangeText, onPressLearnMore }) => (
   <View>
@@ -15,12 +15,12 @@ const search = ({ name, onChangeText, onPressLearnMore }) => (
       accessibilityLabel="search"
     />
   </View>
-);
+)
 
 const styles = StyleSheet.create({
   textHeader: {
     fontSize: 50,
     color: "black"
   }
-});
-export default search;
+})
+export default search
