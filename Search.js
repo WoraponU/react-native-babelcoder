@@ -71,13 +71,13 @@ export default class App extends React.Component {
     this.fetchCountries()
   }
 
-  onPressCountry = woeid => {
+  onPressCountry = woeid => () => {
     this.props.navigation.navigate("Weathers", {
       woeid
     })
   }
 
-  onPressFav = woeid => {
+  onPressFav = woeid => () => {
     this.setFavLocation(woeid)
   }
 
@@ -110,13 +110,13 @@ export default class App extends React.Component {
           <View key={country.latt_long} style={styles.row}>
             <Text
               style={styles.textList}
-              onPress={() => this.onPressCountry(country.woeid)}
+              onPress={this.onPressCountry(country.woeid)}
             >
               {country.title}
             </Text>
             <Text
               style={[styles.textList, this.isFav(country.woeid) && styles.red]}
-              onPress={() => this.onPressFav(country.woeid)}
+              onPress={this.onPressFav(country.woeid)}
             >
               Liked
             </Text>
